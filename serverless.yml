@@ -1,0 +1,91 @@
+service: contracts-project
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-west-2
+  profile: default
+  stage: dev
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource:
+        - "arn:aws:dynamodb:*:*"
+
+custom:
+  tableNames:
+    ContractsTable: "ContractsTable"
+  dynamodb:
+    stages:
+      - dev
+    start:
+      migrate: true
+      serverless-offline:
+        resourceRoutes: true
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+functions:
+  addContract:
+    handler: src/addContract.addContract
+    events:
+      - httpApi:
+          path: /createContract
+          method: post
+  getContracts:
+    handler: src/getContracts.getContracts
+    events:
+      - httpApi:
+          path: /getContractIDs
+          method: get
+  getContract:
+    handler: src/getContract.getContract
+    events:
+      - httpApi:
+          path: /getContract
+          method: get
+  createUser:
+    handler: src/createUser.createUser
+    events:
+      - httpApi:
+          path: /createUser
+          method: post
+  login:
+    handler: src/loginUser.login
+    events:
+      - httpApi:
+          path: /loginUser
+          method: post
+
+resources:
+  Resources:
+    ContractsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ContractsTable
+        AttributeDefinitions:
+          - AttributeName: userID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UsersTable
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
