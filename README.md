@@ -5,7 +5,7 @@
 Before starting, please make sure to run the following commands from the folder you've downloaded the repo:
 
 `~$ sls dynamo install`\
-`~$ npm init`
+`~$ npm i`
 
 - The first command will install dynamodb locally for your project
 - The second one will install all the project's dependencies
@@ -44,7 +44,7 @@ Then get your JWT token by logging in:
 
 ### Create a new contract
 
-We highgly recommend to start adding some information to your dynamodb database.\
+We highly recommend to start adding some information to your dynamodb database.\
 Please, add a new contract like this:
 
 `POST http://localhost:3000/createContract` \
