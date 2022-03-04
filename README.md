@@ -2,9 +2,12 @@
 
 ## First steps
 
+The local environment for running dynamodb uses JRE (Java Runtime Environment). Make sure to install it.
+
 Before starting, please make sure to run the following commands from the folder you've downloaded the repo:
 
-`~$ sls dynamo install`\
+`~$ sls dynamodb install`\
+`~$ npm i serverless-offline --save-dev`\
 `~$ npm i`
 
 - The first command will install dynamodb locally for your project
